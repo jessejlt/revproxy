@@ -1,6 +1,7 @@
 package main
 
 import (
+  "encoding/json"
   "github.com/julienschmidt/httprouter"
   "log"
   "net/http"
@@ -10,7 +11,7 @@ import (
 func CollectionsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
   authToken := r.Header.Get("Authorization")
-  resp, body, err := GetRoot(authToken)
+  resp, root, err := GetRoot(authToken)
   if err != nil {
 
     log.Print(err)
@@ -20,10 +21,17 @@ func CollectionsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Par
     }
 
     errMessage := http.StatusText(statusCode)
-    if body != nil {
-      errMessage = string(body[:])
-    }
     http.Error(w, errMessage, statusCode)
+    return
   }
 
+  js, err := json.Marshal(root)
+  if err != nil {
+    log.Printf("Failed to unmarshal upstream response %v", err)
+    http.Error(w, "", http.StatusInternalServerError)
+    return
+  }
+
+  w.Header().Set("Content-Type", "application/json")
+  w.Write(js)
 }

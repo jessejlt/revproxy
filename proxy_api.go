@@ -1,11 +1,18 @@
 package main
 
 import (
+  "encoding/json"
   "io/ioutil"
   "log"
   "net/http"
   "os"
 )
+
+// Root is a user's root directory
+type Root struct {
+  URL  string `json:"url"`
+  Name string `json:"name"`
+}
 
 type api struct {
   method, endpoint, authToken string
@@ -41,8 +48,19 @@ func proxyRequest(apiDef *api) (*http.Response, []byte, error) {
 }
 
 // GetRoot retrieves the user's root directory
-func GetRoot(authToken string) (*http.Response, []byte, error) {
+func GetRoot(authToken string) (*http.Response, *Root, error) {
 
   apiDef := &api{method: "GET", endpoint: "/settings", authToken: authToken}
-  return proxyRequest(apiDef)
+  resp, body, err := proxyRequest(apiDef)
+  if err != nil {
+    return nil, nil, err
+  }
+
+  r := new(Root)
+  err = json.Unmarshal(body, &r)
+  if err != nil {
+    return nil, nil, err
+  }
+
+  return resp, r, nil
 }

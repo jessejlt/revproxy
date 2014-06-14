@@ -11,7 +11,7 @@ import (
 func getRootHandler(w http.ResponseWriter, r *http.Request) {
 
   w.Header().Set("Content-Type", "application/json")
-  fmt.Fprintln(w, `{"foo": "bar"}`)
+  fmt.Fprintln(w, `{"url":"http://foo.com","name":"bar"}`)
 }
 
 func TestGetRoot(t *testing.T) {
@@ -20,8 +20,12 @@ func TestGetRoot(t *testing.T) {
   defer s.Close()
   os.Setenv("PROXY_HOST", s.URL)
 
-  _, _, err := GetRoot("")
+  _, root, err := GetRoot("")
   if err != nil {
     t.Error(err)
+  }
+
+  if root.Name != "bar" {
+    t.Errorf("Expected root.Name = bar, received %v", root.Name)
   }
 }
