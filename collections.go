@@ -11,6 +11,11 @@ import (
 func CollectionsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
   authToken := r.Header.Get("Authorization")
+  if authToken == "" {
+    http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+    return
+  }
+
   resp, root, err := GetRoot(authToken)
   if err != nil {
 
