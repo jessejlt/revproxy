@@ -7,8 +7,8 @@ import (
   "net/http"
 )
 
-// CollectionsHandler proxies /root to TODO
-func CollectionsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+// RootHandler proxies /root to TODO
+func RootHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
   authToken := r.Header.Get("Authorization")
   if authToken == "" {

@@ -22,7 +22,7 @@ func main() {
 
   validateStartup()
   router := httprouter.New()
-  router.GET("/root", CollectionsHandler)
+  router.GET("/root", RootHandler)
 
   log.Fatal(http.ListenAndServe(":8080", router))
 }

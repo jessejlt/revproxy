@@ -15,10 +15,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func wrapper(w http.ResponseWriter, r *http.Request) {
-  CollectionsHandler(w, r, nil)
+  RootHandler(w, r, nil)
 }
 
-func TestCollectionsHandler(t *testing.T) {
+func TestRootHandler(t *testing.T) {
 
   // Setup response handler for outbound request
   proxyServer := httptest.NewServer(http.HandlerFunc(handler))
