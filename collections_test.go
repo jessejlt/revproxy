@@ -30,7 +30,7 @@ func TestCollectionsHandler(t *testing.T) {
   defer routeServer.Close()
 
   // Request
-  uri := routeServer.URL + "/appsettings/collections"
+  uri := routeServer.URL + "/root"
   client := &http.Client{}
   req, err := http.NewRequest("GET", uri, nil)
   if err != nil {

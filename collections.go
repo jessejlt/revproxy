@@ -7,7 +7,7 @@ import (
   "net/http"
 )
 
-// CollectionsHandler proxies /appsettings/collections to TODO
+// CollectionsHandler proxies /root to TODO
 func CollectionsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
   authToken := r.Header.Get("Authorization")
