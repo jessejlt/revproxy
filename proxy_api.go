@@ -50,7 +50,7 @@ func proxyRequest(apiDef *api) (*http.Response, []byte, error) {
 // GetRoot retrieves the user's root directory
 func GetRoot(authToken string) (*http.Response, *Root, error) {
 
-  apiDef := &api{method: "GET", endpoint: "/settings", authToken: authToken}
+  apiDef := &api{method: "GET", endpoint: "/root", authToken: authToken}
   resp, body, err := proxyRequest(apiDef)
   if err != nil {
     return nil, nil, err
